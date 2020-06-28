@@ -60,6 +60,9 @@ firms-own[
   being-punished?
   amount-of-pizzo
   amount-of-punish
+  perceived-risk
+  ; fiscal variables
+  formal?
 ]
 
 workers-own[
@@ -131,6 +134,7 @@ to initialize-variables
     set retained-profits-pi 0
     set being-extorted? false
     set being-punished? false
+    set formal? true
   ]
   ask workers [
     set employed? false
@@ -535,10 +539,13 @@ to extortion-search
 
         ; if the randomly selected company has already been extorted by someone else who provides "protection", the worker loses his chance to extort
         if ([not being-extorted? or not being-punished?] of potential-firm-to-extort)[
-          ; How many of the observable firms are being extorted?
+          ; How many of the observable firms are being extorted/punished?
           let closest-firms closest-observable-firms
           let around-firms min-n-of closest-firms other firms [distance potential-firm-to-extort]
           let expected-risk 100 * (count around-firms with [being-extorted? or being-punished?] / closest-firms)
+          ask potential-firm-to-extort[
+            set perceived-risk expected-risk
+          ]
           ifelse (expected-risk >= rejection-threshold); If the expected risk is high, firm accept to pay the pizzo
           [; A threshold of 0% represents that the company at the slightest hint of extortion in the area will choose to pay the pizzo
             set firms-to-extort (turtle-set firms-to-extort potential-firm-to-extort); succesful extortion
@@ -552,10 +559,13 @@ to extortion-search
 
         ; if the selected firm has already been extorted by someone else who provides "protection", the worker loses his chance to extort
         if ([not being-extorted? or not being-punished?] of potential-firm-to-extort)[
-          ; How many of the observable firms are being extorted?
+          ; How many of the observable firms are being extorted/punished?
           let closest-firms closest-observable-firms
           let around-firms min-n-of closest-firms other firms [distance potential-firm-to-extort]
           let expected-risk 100 * (count around-firms with [being-extorted? or being-punished?] / closest-firms)
+          ask potential-firm-to-extort[
+            set perceived-risk expected-risk
+          ]
           ifelse (expected-risk >= rejection-threshold); If the expected risk is high, firm accept to pay the pizzo
           [; A threshold of 0% represents that the company at the slightest hint of extortion in the area will choose to pay the pizzo
             set firms-to-extort (turtle-set firms-to-extort potential-firm-to-extort); succesful extortion
@@ -1249,8 +1259,8 @@ SLIDER
 264
 v
 v
-0
-1
+0.01
+0.99
 0.23
 0.01
 1
@@ -1480,7 +1490,7 @@ PLOT
 150
 Real GDP
 Time
-NIL
+Ln
 0.0
 10.0
 0.0
@@ -1489,7 +1499,7 @@ true
 false
 "" ""
 PENS
-"Nom." 1.0 0 -12030287 true "" "set-plot-x-range ifelse-value keep-burning-phase? [ 0 ] [ max (list 0 (ticks - burning-periods))  ] (ticks + 5)\nplot real-GDP"
+"Nom." 1.0 0 -12030287 true "" "set-plot-x-range ifelse-value keep-burning-phase? [ 0 ] [ max (list 0 (ticks - burning-periods))  ] (ticks + 5)\nplot ln real-GDP"
 
 PLOT
 600
@@ -1532,10 +1542,10 @@ PENS
 TEXTBOX
 200
 60
-244
+230
 78
 100
-12
+11
 5.0
 1
 
@@ -1555,7 +1565,7 @@ TEXTBOX
 274
 116
 0.05
-12
+11
 5.0
 1
 
@@ -1565,7 +1575,7 @@ TEXTBOX
 252
 155
 0.10
-12
+11
 5.0
 1
 
@@ -1575,17 +1585,17 @@ TEXTBOX
 231
 190
 0.10
-12
+11
 5.0
 1
 
 TEXTBOX
-201
+200
 210
-236
+235
 228
 0.10
-12
+11
 5.0
 1
 
@@ -1595,7 +1605,7 @@ TEXTBOX
 235
 298
 4
-12
+11
 5.0
 1
 
@@ -1605,7 +1615,7 @@ TEXTBOX
 236
 337
 2
-12
+11
 5.0
 1
 
@@ -1625,7 +1635,7 @@ TEXTBOX
 234
 408
 0.87
-12
+11
 5.0
 1
 
@@ -1635,7 +1645,7 @@ TEXTBOX
 240
 443
 0.15
-12
+11
 5.0
 1
 
@@ -1811,7 +1821,7 @@ propensity-to-be-extorter-epsilon
 propensity-to-be-extorter-epsilon
 0
 100
-20.0
+5.0
 5
 1
 %
@@ -1926,7 +1936,7 @@ TEXTBOX
 500
 418
 20%
-12
+11
 5.0
 1
 
@@ -1936,7 +1946,7 @@ TEXTBOX
 242
 491
 0.20
-12
+11
 5.0
 1
 
@@ -1946,7 +1956,7 @@ TEXTBOX
 500
 488
 1 trial
-12
+11
 5.0
 1
 
@@ -1956,7 +1966,7 @@ TEXTBOX
 225
 658
 10%
-12
+11
 5.0
 1
 
@@ -1966,7 +1976,7 @@ TEXTBOX
 500
 523
 15%
-12
+11
 5.0
 1
 
@@ -1976,7 +1986,7 @@ TEXTBOX
 500
 453
 30%
-12
+11
 5.0
 1
 
@@ -2048,7 +2058,7 @@ TEXTBOX
 500
 593
 50%
-12
+11
 5.0
 1
 
@@ -2123,7 +2133,7 @@ TEXTBOX
 227
 711
 1
-12
+11
 5.0
 1
 
@@ -2133,7 +2143,7 @@ TEXTBOX
 237
 551
 rand
-12
+11
 5.0
 1
 
@@ -2143,7 +2153,7 @@ TEXTBOX
 227
 611
 prop
-12
+11
 5.0
 1
 
@@ -2225,7 +2235,7 @@ TEXTBOX
 500
 628
 25%
-12
+11
 5.0
 1
 
@@ -2458,6 +2468,26 @@ productivity-shock-sigma
 1
 NIL
 HORIZONTAL
+
+TEXTBOX
+200
+245
+225
+263
+0.23
+11
+5.0
+1
+
+TEXTBOX
+195
+815
+220
+833
+0.10
+11
+5.0
+1
 
 @#$#@#$#@
 Overview
