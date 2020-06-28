@@ -647,6 +647,9 @@ end
 
 ;;;;;;;;;; to firms-pay  ;;;;;;;;;;
 to firms-pay
+
+  let total-taxable-income 0
+
   ask firms [
     set revenue-R individual-price-P * ( production-Y - inventory-S)
     set gross-profits revenue-R - total-payroll-W
@@ -665,11 +668,18 @@ to firms-pay
       ]
     ]
     set net-profits gross-profits - amount-of-Interest-to-pay
+
     set amount-of-Interest-to-pay 0
     if (net-profits > 0)[
       set retained-profits-pi (1 - dividends-delta ) * net-profits
     ]
+
+    let taxable-income (income-tax-rate / 100) * retained-profits-pi
+    set retained-profits-pi retained-profits-pi - taxable-income
+    set total-taxable-income total-taxable-income + taxable-income
+
   ]
+  set income-tax-collected-firms total-taxable-income
 end
 
 ;;;;;;;;;; to firms-banks-survive ;;;;;;;;;;
@@ -2416,10 +2426,11 @@ NIL
 0.0
 0.25
 true
-false
+true
 "" ""
 PENS
-"default" 1.0 0 -16777216 true "" "set-plot-x-range ifelse-value keep-burning-phase? [ 0 ] [ max (list 0 (ticks - burning-periods))  ] (ticks + 5)\nplot income-tax-collected-workers / nominal-GDP"
+"workers" 1.0 0 -14439633 true "" "set-plot-x-range ifelse-value keep-burning-phase? [ 0 ] [ max (list 0 (ticks - burning-periods))  ] (ticks + 5)\nplot income-tax-collected-workers / nominal-GDP"
+"firms" 1.0 0 -13345367 true "" "plot income-tax-collected-firms / nominal-GDP"
 
 @#$#@#$#@
 Overview
