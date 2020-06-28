@@ -528,7 +528,7 @@ to extortion-search
         ; if the randomly selected company has already been extorted by someone else who provides "protection", the worker loses his chance to extort
         if ([not being-extorted? or not being-punished?] of potential-firm-to-extort)[
           ; How many of the observable firms are being extorted?
-          let closest-firms 3
+          let closest-firms closest-observable-firms
           let around-firms min-n-of closest-firms other firms [distance potential-firm-to-extort]
           let expected-risk 100 * (count around-firms with [being-extorted? or being-punished?] / closest-firms)
           ifelse (expected-risk >= rejection-threshold); If the expected risk is high, firm accept to pay the pizzo
