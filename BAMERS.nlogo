@@ -548,10 +548,9 @@ to extortion-search
         ; if the randomly selected company has already been extorted by someone else who provides "protection", the worker loses his chance to extort
         if ([not being-extorted? or not being-punished?] of potential-firm-to-extort)[
           ; How many of the observable firms are being extorted/punished?
-          let closest-firms closest-observable-firms
-          let around-firms min-n-of closest-firms other firms [distance potential-firm-to-extort]
-          let expected-risk 100 * (count around-firms with [being-extorted? or being-punished?] / closest-firms)
-          let estimated-audit-probability 100 * (count around-firms with [tax-evader?] / closest-firms)
+          let around-firms min-n-of closest-observable-firms other firms [distance potential-firm-to-extort]
+          let expected-risk 100 * (count around-firms with [being-extorted? or being-punished?] / closest-observable-firms)
+          let estimated-audit-probability 100 * (count firms with [tax-evader?] / number-of-firms)
 
           ask potential-firm-to-extort[
             set perceived-risk expected-risk
