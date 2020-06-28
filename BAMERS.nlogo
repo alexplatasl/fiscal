@@ -63,6 +63,10 @@ firms-own[
   perceived-risk
   ; fiscal variables
   formal?
+  tax-evader?
+  political-grievance-G
+  risk-aversion-R
+  net-risk-N
 ]
 
 workers-own[
@@ -135,6 +139,10 @@ to initialize-variables
     set being-extorted? false
     set being-punished? false
     set formal? true
+    set tax-evader? false
+    set political-grievance-G 0
+    set risk-aversion-R rejection-threshold
+    set net-risk-N 0
   ]
   ask workers [
     set employed? false
@@ -543,8 +551,14 @@ to extortion-search
           let closest-firms closest-observable-firms
           let around-firms min-n-of closest-firms other firms [distance potential-firm-to-extort]
           let expected-risk 100 * (count around-firms with [being-extorted? or being-punished?] / closest-firms)
+          let estimated-audit-probability 100 * (count around-firms with [tax-evader?] / closest-firms)
+
           ask potential-firm-to-extort[
             set perceived-risk expected-risk
+            ; J. M. Epstein (2002). Modeling civil violence: An agent-based computational approach.
+            set political-grievance-G perceived-risk * income-tax-rate
+            set net-risk-N risk-aversion-R * estimated-audit-probability
+            set formal? political-grievance-G - net-risk-N > rejection-threshold
           ]
           ifelse (expected-risk >= rejection-threshold); If the expected risk is high, firm accept to pay the pizzo
           [; A threshold of 0% represents that the company at the slightest hint of extortion in the area will choose to pay the pizzo
@@ -565,6 +579,7 @@ to extortion-search
           let expected-risk 100 * (count around-firms with [being-extorted? or being-punished?] / closest-firms)
           ask potential-firm-to-extort[
             set perceived-risk expected-risk
+            set formal? (perceived-risk * income-tax-rate <= 2 * rejection-threshold)
           ]
           ifelse (expected-risk >= rejection-threshold); If the expected risk is high, firm accept to pay the pizzo
           [; A threshold of 0% represents that the company at the slightest hint of extortion in the area will choose to pay the pizzo
