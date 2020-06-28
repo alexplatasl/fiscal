@@ -141,7 +141,7 @@ to initialize-variables
     set formal? true
     set tax-evader? false
     set political-grievance-G 0
-    set risk-aversion-R random-float rejection-threshold
+    set risk-aversion-R random rejection-threshold / 100
     set net-risk-N 0
   ]
   ask workers [
@@ -218,6 +218,7 @@ to go
   firms-produce
   goods-market
   extortion
+  tax
   firms-pay
   firms-banks-survive
   replace-bankrupt
@@ -550,16 +551,6 @@ to extortion-search
           ; How many of the observable firms are being extorted/punished?
           let around-firms min-n-of closest-observable-firms other firms [distance potential-firm-to-extort]
           let expected-risk 100 * (count around-firms with [being-extorted? or being-punished?] / closest-observable-firms)
-          ; We assume that information about tax-evaders is complete
-          let estimated-audit-probability 100 * (count firms with [tax-evader?] / number-of-firms)
-
-          ask potential-firm-to-extort[
-            set perceived-risk expected-risk; risk perceived from criminals
-            ; J. M. Epstein (2002). Modeling civil violence: An agent-based computational approach.
-            set political-grievance-G perceived-risk * income-tax-rate; the highest the tax rate or perceived risk the highest the grievance
-            set net-risk-N risk-aversion-R * estimated-audit-probability
-            set formal? political-grievance-G - net-risk-N > rejection-threshold
-          ]
           ifelse (expected-risk >= rejection-threshold); If the expected risk is high, firm accept to pay the pizzo
           [; A threshold of 0% represents that the company at the slightest hint of extortion in the area will choose to pay the pizzo
             set firms-to-extort (turtle-set firms-to-extort potential-firm-to-extort); succesful extortion
@@ -577,10 +568,6 @@ to extortion-search
           let closest-firms closest-observable-firms
           let around-firms min-n-of closest-firms other firms [distance potential-firm-to-extort]
           let expected-risk 100 * (count around-firms with [being-extorted? or being-punished?] / closest-firms)
-          ask potential-firm-to-extort[
-            set perceived-risk expected-risk
-            set formal? (perceived-risk * income-tax-rate <= 2 * rejection-threshold)
-          ]
           ifelse (expected-risk >= rejection-threshold); If the expected risk is high, firm accept to pay the pizzo
           [; A threshold of 0% represents that the company at the slightest hint of extortion in the area will choose to pay the pizzo
             set firms-to-extort (turtle-set firms-to-extort potential-firm-to-extort); succesful extortion
@@ -595,6 +582,30 @@ to extortion-search
     set trials trials - 1
   ]
 end
+
+to tax
+  ask firms[
+    ; J. M. Epstein (2002). Modeling civil violence: An agent-based computational approach.
+    let around-firms min-n-of closest-observable-firms other firms [distance myself]
+    ; We assume that information about tax-evaders is complete
+    let estimated-audit-probability (count firms with [tax-evader?] / number-of-firms)
+
+    ;risk perceived from criminals
+    set perceived-risk (count around-firms with [being-extorted? or being-punished?] / closest-observable-firms)
+
+    set political-grievance-G perceived-risk * income-tax-rate; the highest the tax rate and/or perceived risk the highest the grievance
+    set net-risk-N risk-aversion-R * estimated-audit-probability
+    set formal? political-grievance-G - net-risk-N <= rejection-threshold / 100
+    let audit? random 100 < probability-of-being-caught-lambda
+    if (audit? and not formal?)[
+     set tax-evader? true
+    ]
+  ]
+
+
+
+end
+
 
 to execute-extortion
   ask workers with [any? firms-to-extort][
@@ -786,7 +797,7 @@ to replace-bankrupt
       set formal? true
       set tax-evader? false
       set political-grievance-G 0
-      set risk-aversion-R random-float rejection-threshold
+      set risk-aversion-R random rejection-threshold / 100
       set net-risk-N 0
     ]
   ]
@@ -2369,7 +2380,7 @@ SWITCH
 763
 keep-burning-phase?
 keep-burning-phase?
-1
+0
 1
 -1000
 
@@ -2450,7 +2461,7 @@ income-tax-rate
 income-tax-rate
 0
 50
-0.0
+30.0
 1
 1
 %
