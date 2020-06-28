@@ -418,7 +418,7 @@ to firms-produce
   let total-taxable-income 0
 
   ask workers with [employed?][
-    set taxable-income (income-tax-rate / 100) * my-wage
+    let taxable-income (income-tax-rate / 100) * my-wage
     set income my-wage - taxable-income
     set total-taxable-income total-taxable-income + taxable-income
     set contract contract - 1
@@ -1087,11 +1087,11 @@ end
 GRAPHICS-WINDOW
 240
 10
-672
-443
+594
+365
 -1
 -1
-8.0
+6.53
 1
 8
 1
@@ -1251,9 +1251,9 @@ trials
 HORIZONTAL
 
 PLOT
-941
+865
 30
-1207
+1131
 150
 Unemployment rate
 Time
@@ -1331,9 +1331,9 @@ NIL
 HORIZONTAL
 
 PLOT
-941
+865
 290
-1207
+1131
 410
 Net worth distribution
 log money
@@ -1349,9 +1349,9 @@ PENS
 "default" 1.0 1 -16777216 true "" "set-histogram-num-bars sqrt count firms\nset-plot-y-range 0 ceiling sqrt count firms\nset-plot-x-range floor ln-hopital min [net-worth-A] of fn-incumbent-firms ceiling ln-hopital max [net-worth-A] of fn-incumbent-firms\nhistogram map ln-hopital [net-worth-A] of fn-incumbent-firms"
 
 PLOT
-676
+600
 290
-942
+866
 410
 Net worth of firms
 Time
@@ -1369,9 +1369,9 @@ PENS
 "max" 1.0 2 -13840069 true "set-plot-pen-mode 2" "plot ln-hopital max [net-worth-A] of firms"
 
 PLOT
-941
+865
 150
-1207
+1131
 270
 Propensity to consume
 Time
@@ -1389,9 +1389,9 @@ PENS
 "max" 1.0 0 -13345367 true "" "plot max [propensity-to-consume-c] of workers"
 
 PLOT
-1471
+1395
 30
-1737
+1661
 150
 Time scale inflation
 Time
@@ -1408,9 +1408,9 @@ PENS
 "pen-1" 1.0 2 -5987164 true "" "plot 0"
 
 PLOT
-1206
+1130
 30
-1472
+1396
 150
 Annualized inflation
 Year
@@ -1452,9 +1452,9 @@ NIL
 HORIZONTAL
 
 PLOT
-676
+600
 30
-942
+866
 150
 Real GDP
 Time
@@ -1470,9 +1470,9 @@ PENS
 "Nom." 1.0 0 -12030287 true "" "set-plot-x-range ifelse-value keep-burning-phase? [ 0 ] [ max (list 0 (ticks - burning-periods))  ] (ticks + 5)\nplot real-GDP"
 
 PLOT
-676
+600
 150
-942
+866
 270
 Consumption to GDP ratio
 Time
@@ -1488,9 +1488,9 @@ PENS
 "default" 1.0 0 -16777216 true "" "set-plot-x-range ifelse-value keep-burning-phase? [ 0 ] [ max (list 0 (ticks - burning-periods))  ] (ticks + 5)\nplot households-consumption-to-gdp-ratio"
 
 PLOT
-941
+865
 410
-1207
+1131
 530
 Price of firms
 Time
@@ -1618,9 +1618,9 @@ TEXTBOX
 1
 
 PLOT
-1471
+1395
 530
-1737
+1661
 650
 Wealth distribution of regular worker
 log wealth
@@ -1636,9 +1636,9 @@ PENS
 "default" 1.0 1 -16777216 true "" "set-histogram-num-bars sqrt count workers\nset-plot-y-range 0 ceiling sqrt count workers\nset-plot-x-range floor ln-hopital min [wealth] of workers ceiling ln-hopital max [wealth] of workers\nhistogram map ln-hopital [wealth] of workers with [wealth > 0 and not extorter? and not in-jail?]"
 
 PLOT
-1206
+1130
 410
-1471
+1395
 530
 Size of firms
 log Production
@@ -1654,9 +1654,9 @@ PENS
 "default" 1.0 1 -16777216 true "" "set-histogram-num-bars sqrt count firms\nset-plot-y-range 0 ceiling sqrt count firms\nset-plot-x-range floor ln-hopital min [production-Y] of fn-incumbent-firms ceiling ln-hopital max [production-Y] of fn-incumbent-firms\nplot-size-of-firms"
 
 PLOT
-1206
+1130
 290
-1471
+1395
 410
 Production of firms
 Time
@@ -1674,9 +1674,9 @@ PENS
 "min" 1.0 0 -2674135 true "" "plot min [production-Y] of fn-incumbent-firms"
 
 PLOT
-1471
+1395
 290
-1736
+1660
 410
 Desired production
 Time
@@ -1694,9 +1694,9 @@ PENS
 "min" 1.0 0 -2674135 true "" "plot min [desired-production-Yd] of firms"
 
 PLOT
-676
+600
 530
-941
+865
 650
 Contractual interest rate
 Time
@@ -1712,9 +1712,9 @@ PENS
 "mean" 1.0 0 -16777216 true "" "set-plot-x-range ifelse-value keep-burning-phase? [ 0 ] [ max (list 0 (ticks - burning-periods))  ] (ticks + 5)\nplot 100 * mean [my-interest-rate] of firms"
 
 PLOT
-1206
+1130
 530
-1471
+1395
 650
 Avg Wealth of workers
 Time
@@ -1731,9 +1731,9 @@ PENS
 "extorter" 1.0 0 -5298144 true "" "plot fn-wealth-of-extorters"
 
 PLOT
-676
+600
 410
-941
+865
 530
 Inventory-S
 Time
@@ -1751,9 +1751,9 @@ PENS
 "min" 1.0 0 -13345367 true "" "plot ln-hopital min [inventory-S] of firms"
 
 PLOT
-941
+865
 530
-1206
+1130
 650
 Banks patrimonial base
 Time
@@ -1771,20 +1771,20 @@ PENS
 "min" 1.0 0 -13345367 true "" "plot ln-hopital min [patrimonial-base-E] of banks"
 
 TEXTBOX
-241
-450
-661
-476
+240
+365
+580
+391
 General extortion parameters
 12
 0.0
 1
 
 SLIDER
-241
-470
-546
-503
+240
+385
+545
+418
 propensity-to-be-extorter-epsilon
 propensity-to-be-extorter-epsilon
 0
@@ -1796,10 +1796,10 @@ propensity-to-be-extorter-epsilon
 HORIZONTAL
 
 SLIDER
-241
-540
-546
-573
+240
+455
+545
+488
 firms-to-extort-X
 firms-to-extort-X
 1
@@ -1811,9 +1811,9 @@ trials
 HORIZONTAL
 
 PLOT
-676
+600
 670
-941
+865
 790
 % of Workers being extortionists
 Time
@@ -1845,9 +1845,9 @@ proportion-of-pizzo
 HORIZONTAL
 
 PLOT
-1206
+1130
 670
-1471
+1395
 790
 Pizzo & punish to GDP ratio
 Time
@@ -1864,10 +1864,10 @@ PENS
 "punish" 1.0 0 -5298144 true "" "plot punish-to-gdp-ratio"
 
 SLIDER
-241
-505
-546
-538
+240
+420
+545
+453
 probability-of-being-caught-lambda
 probability-of-being-caught-lambda
 0
@@ -1879,9 +1879,9 @@ probability-of-being-caught-lambda
 HORIZONTAL
 
 PLOT
-1471
+1395
 410
-1736
+1660
 530
 Wage offered Wb
 Time
@@ -1899,10 +1899,10 @@ PENS
 "max" 1.0 0 -13345367 true "" "plot ln max [wage-offered-Wb] of firms"
 
 TEXTBOX
-556
-485
-586
-503
+555
+400
+585
+418
 20%
 12
 5.0
@@ -1919,10 +1919,10 @@ TEXTBOX
 1
 
 TEXTBOX
-556
 555
-606
-573
+470
+605
+488
 1 trial
 12
 5.0
@@ -1939,29 +1939,29 @@ TEXTBOX
 1
 
 TEXTBOX
-556
-590
-586
-608
+555
+505
+585
+523
 15%
 12
 5.0
 1
 
 TEXTBOX
-556
-520
-586
-538
+555
+435
+585
+453
 30%
 12
 5.0
 1
 
 PLOT
-1206
+1130
 150
-1471
+1395
 270
 Lorenz curve of workers
 Pop %
@@ -1978,9 +1978,9 @@ PENS
 "Equal" 100.0 0 -13840069 true "plot 0\nplot 100" ""
 
 PLOT
-1471
+1395
 150
-1736
+1660
 270
 Gini index
 Time
@@ -2006,10 +2006,10 @@ Pizzo payment parameters
 1
 
 SLIDER
-241
-645
-546
-678
+240
+560
+545
+593
 percent-transfer-fondo
 percent-transfer-fondo
 0
@@ -2021,10 +2021,10 @@ percent-transfer-fondo
 HORIZONTAL
 
 TEXTBOX
-556
-660
-596
-678
+555
+575
+595
+593
 50%
 12
 5.0
@@ -2126,10 +2126,10 @@ prop
 1
 
 SWITCH
-241
-715
-443
-748
+240
+630
+442
+663
 proportional-refund?
 proportional-refund?
 0
@@ -2137,10 +2137,10 @@ proportional-refund?
 -1000
 
 SLIDER
-241
-575
-546
-608
+240
+490
+545
+523
 rejection-threshold
 rejection-threshold
 0
@@ -2152,10 +2152,10 @@ rejection-threshold
 HORIZONTAL
 
 SWITCH
-241
-750
-443
-783
+240
+665
+442
+698
 quarterly-time-scale?
 quarterly-time-scale?
 1
@@ -2163,30 +2163,30 @@ quarterly-time-scale?
 -1000
 
 TEXTBOX
-446
-725
-596
-743
+445
+640
+595
+658
 Otherwise, first to come
 12
 5.0
 1
 
 TEXTBOX
-446
-760
-606
-786
+445
+675
+605
+701
 Otherwise, monthly scale
 12
 5.0
 1
 
 SLIDER
-241
-680
-546
-713
+240
+595
+545
+628
 proportion-of-punish
 proportion-of-punish
 25
@@ -2198,19 +2198,19 @@ proportion-of-punish
 HORIZONTAL
 
 TEXTBOX
-556
-695
-586
-713
+555
+610
+585
+628
 25%
 12
 5.0
 1
 
 PLOT
-941
+865
 670
-1206
+1130
 790
 % of Firms being...
 Time
@@ -2227,9 +2227,9 @@ PENS
 "Punished" 1.0 0 -5298144 true "" "plot (N-punished-firms / count firms) * 100"
 
 TEXTBOX
-681
+605
 10
-1011
+935
 31
 Aggregate economic variables
 16
@@ -2237,9 +2237,9 @@ Aggregate economic variables
 1
 
 TEXTBOX
-681
+605
 270
-831
+755
 295
 Agent variables
 16
@@ -2247,9 +2247,9 @@ Agent variables
 1
 
 TEXTBOX
-681
+605
 650
-906
+830
 668
 Extortion related variables
 16
@@ -2257,10 +2257,10 @@ Extortion related variables
 1
 
 SLIDER
-241
-610
-546
-643
+240
+525
+545
+558
 closest-observable-firms
 closest-observable-firms
 1
@@ -2272,19 +2272,19 @@ firms
 HORIZONTAL
 
 TEXTBOX
-556
-620
-601
-638
+555
+535
+600
+553
 3 firms
 11
 5.0
 1
 
 PLOT
-1471
+1395
 670
-1736
+1660
 790
 Wealth distribution of extorters
 log wealth
@@ -2347,9 +2347,9 @@ TEXTBOX
 
 SLIDER
 240
-785
-545
-818
+700
+495
+733
 basic-food-basket-to-minimum-wage-ratio
 basic-food-basket-to-minimum-wage-ratio
 0
@@ -2361,19 +2361,19 @@ basic-food-basket-to-minimum-wage-ratio
 HORIZONTAL
 
 TEXTBOX
-550
-785
-670
-845
+495
+695
+635
+745
  8% Englang; 13% Spain;\n14% USA; 27% Argentina;\n29% Chile; 32% Brazil;\n48% Mexico
 9
 5.0
 1
 
 PLOT
-675
+599
 790
-940
+864
 910
 Government spending to GDP ratio
 Time
@@ -2389,10 +2389,10 @@ PENS
 "default" 1.0 0 -16777216 true "" "set-plot-x-range ifelse-value keep-burning-phase? [ 0 ] [ max (list 0 (ticks - burning-periods))  ] (ticks + 5)\nplot government-spending / nominal-GDP"
 
 SLIDER
-240
-820
-430
-853
+239
+735
+429
+768
 income-tax-rate
 income-tax-rate
 0
@@ -2402,6 +2402,24 @@ income-tax-rate
 1
 %
 HORIZONTAL
+
+PLOT
+864
+790
+1129
+910
+Income Tax Collected
+Time
+NIL
+0.0
+10.0
+0.0
+0.25
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -16777216 true "" "set-plot-x-range ifelse-value keep-burning-phase? [ 0 ] [ max (list 0 (ticks - burning-periods))  ] (ticks + 5)\nplot income-tax-collected-workers / nominal-GDP"
 
 @#$#@#$#@
 Overview
