@@ -593,7 +593,7 @@ to tax
     ;risk perceived from criminals
     set perceived-risk (count around-firms with [being-extorted? or being-punished?] / closest-observable-firms)
 
-    set political-grievance-G perceived-risk * income-tax-rate; the highest the tax rate and/or perceived risk the highest the grievance
+    set political-grievance-G perceived-risk * income-tax-rate / 100; the highest the tax rate and/or perceived risk the highest the grievance
     set net-risk-N risk-aversion-R * estimated-audit-probability
     set formal? political-grievance-G - net-risk-N <= rejection-threshold / 100
     let audit? random 100 < probability-of-being-caught-lambda
