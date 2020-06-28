@@ -141,7 +141,7 @@ to initialize-variables
     set formal? true
     set tax-evader? false
     set political-grievance-G 0
-    set risk-aversion-R rejection-threshold
+    set risk-aversion-R random-float rejection-threshold
     set net-risk-N 0
   ]
   ask workers [
@@ -550,12 +550,13 @@ to extortion-search
           ; How many of the observable firms are being extorted/punished?
           let around-firms min-n-of closest-observable-firms other firms [distance potential-firm-to-extort]
           let expected-risk 100 * (count around-firms with [being-extorted? or being-punished?] / closest-observable-firms)
+          ; We assume that information about tax-evaders is complete
           let estimated-audit-probability 100 * (count firms with [tax-evader?] / number-of-firms)
 
           ask potential-firm-to-extort[
-            set perceived-risk expected-risk
+            set perceived-risk expected-risk; risk perceived from criminals
             ; J. M. Epstein (2002). Modeling civil violence: An agent-based computational approach.
-            set political-grievance-G perceived-risk * income-tax-rate
+            set political-grievance-G perceived-risk * income-tax-rate; the highest the tax rate or perceived risk the highest the grievance
             set net-risk-N risk-aversion-R * estimated-audit-probability
             set formal? political-grievance-G - net-risk-N > rejection-threshold
           ]
@@ -781,6 +782,12 @@ to replace-bankrupt
       set being-extorted? false
       set being-punished? false
       set amount-of-pizzo 0
+      ;-----------------
+      set formal? true
+      set tax-evader? false
+      set political-grievance-G 0
+      set risk-aversion-R random-float rejection-threshold
+      set net-risk-N 0
     ]
   ]
 
@@ -2417,9 +2424,9 @@ TEXTBOX
 1
 
 PLOT
-599
+600
 790
-864
+865
 910
 Government spending to GDP ratio
 Time
@@ -2450,9 +2457,9 @@ income-tax-rate
 HORIZONTAL
 
 PLOT
-864
+865
 790
-1129
+1130
 910
 Income Tax Collected
 Time
@@ -2502,6 +2509,24 @@ TEXTBOX
 11
 5.0
 1
+
+PLOT
+1130
+790
+1395
+910
+% of Informal firms
+Time
+%
+0.0
+10.0
+0.0
+1.0
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -16777216 true "" "set-plot-x-range ifelse-value keep-burning-phase? [ 0 ] [ max (list 0 (ticks - burning-periods))  ] (ticks + 5)\nplot 100 * ( count firms with [not formal?] / number-of-firms)"
 
 @#$#@#$#@
 Overview
