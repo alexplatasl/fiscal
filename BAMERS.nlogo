@@ -460,8 +460,8 @@ to goods-market ;; an observer procedure
     if (count my-stores != goods-market-Z) [show (word "Number of my stores " count my-stores " who " who)]
     buying-step goods-market-Z money-to-consume
   ]
-  if (any? workers with [in-jail?] and basic-food-basket-to-minimum-wage-ratio > 0)[
-    let budget-per-prisoner fn-minimum-wage-W-hat * (basic-food-basket-to-minimum-wage-ratio / 100)
+  if (any? workers with [in-jail?] and basic-basket-to-minimum-wage-ratio > 0)[
+    let budget-per-prisoner fn-minimum-wage-W-hat * (basic-basket-to-minimum-wage-ratio / 100)
     let total-budget-required budget-per-prisoner * count workers with [in-jail?]
     let potential-firms-to-buy firms with [inventory-S > 0]
     let available-inventory sum [inventory-S] of potential-firms-to-buy
@@ -1793,7 +1793,7 @@ General extortion parameters
 SLIDER
 240
 385
-545
+460
 418
 propensity-to-be-extorter-epsilon
 propensity-to-be-extorter-epsilon
@@ -1808,7 +1808,7 @@ HORIZONTAL
 SLIDER
 240
 455
-545
+460
 488
 firms-to-extort-X
 firms-to-extort-X
@@ -1876,7 +1876,7 @@ PENS
 SLIDER
 240
 420
-545
+460
 453
 probability-of-being-caught-lambda
 probability-of-being-caught-lambda
@@ -1909,9 +1909,9 @@ PENS
 "max" 1.0 0 -13345367 true "" "plot ln max [wage-offered-Wb] of firms"
 
 TEXTBOX
-555
+465
 400
-585
+500
 418
 20%
 12
@@ -1929,9 +1929,9 @@ TEXTBOX
 1
 
 TEXTBOX
-555
+465
 470
-605
+500
 488
 1 trial
 12
@@ -1949,9 +1949,9 @@ TEXTBOX
 1
 
 TEXTBOX
-555
+465
 505
-585
+500
 523
 15%
 12
@@ -1959,9 +1959,9 @@ TEXTBOX
 1
 
 TEXTBOX
-555
+465
 435
-585
+500
 453
 30%
 12
@@ -2018,7 +2018,7 @@ Pizzo payment parameters
 SLIDER
 240
 560
-545
+460
 593
 percent-transfer-fondo
 percent-transfer-fondo
@@ -2031,9 +2031,9 @@ percent-transfer-fondo
 HORIZONTAL
 
 TEXTBOX
-555
+465
 575
-595
+500
 593
 50%
 12
@@ -2149,7 +2149,7 @@ proportional-refund?
 SLIDER
 240
 490
-545
+460
 523
 rejection-threshold
 rejection-threshold
@@ -2174,28 +2174,28 @@ quarterly-time-scale?
 
 TEXTBOX
 445
-640
-595
-658
-Otherwise, first to come
-12
+635
+510
+661
+Otherwise, \nfirst to come
+10
 5.0
 1
 
 TEXTBOX
 445
-675
-605
-701
-Otherwise, monthly scale
-12
+670
+515
+696
+Otherwise, \nmonthly scale
+10
 5.0
 1
 
 SLIDER
 240
 595
-545
+460
 628
 proportion-of-punish
 proportion-of-punish
@@ -2208,9 +2208,9 @@ proportion-of-punish
 HORIZONTAL
 
 TEXTBOX
-555
+465
 610
-585
+500
 628
 25%
 12
@@ -2269,7 +2269,7 @@ Extortion related variables
 SLIDER
 240
 525
-545
+460
 558
 closest-observable-firms
 closest-observable-firms
@@ -2282,9 +2282,9 @@ firms
 HORIZONTAL
 
 TEXTBOX
-555
+465
 535
-600
+500
 553
 3 firms
 11
@@ -2358,10 +2358,10 @@ TEXTBOX
 SLIDER
 240
 700
-495
+460
 733
-basic-food-basket-to-minimum-wage-ratio
-basic-food-basket-to-minimum-wage-ratio
+basic-basket-to-minimum-wage-ratio
+basic-basket-to-minimum-wage-ratio
 0
 100
 48.0
@@ -2371,12 +2371,12 @@ basic-food-basket-to-minimum-wage-ratio
 HORIZONTAL
 
 TEXTBOX
-495
-695
-635
-745
+460
+700
+580
+746
  8% Englang; 13% Spain;\n14% USA; 27% Argentina;\n29% Chile; 32% Brazil;\n48% Mexico
-9
+8
 5.0
 1
 
@@ -2401,7 +2401,7 @@ PENS
 SLIDER
 239
 735
-429
+459
 768
 income-tax-rate
 income-tax-rate
