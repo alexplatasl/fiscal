@@ -208,6 +208,7 @@ to go
   extortion
   firms-pay
   firms-banks-survive
+  if (growth-model?)[ r+d ]
   replace-bankrupt
 
   update-lorenz-and-gini
@@ -710,6 +711,15 @@ to firms-banks-survive
       set my-bank no-turtles
     ]
     set bankrupt? true
+  ]
+end
+
+to r+d
+  ask firms with [retained-profits-pi > 0 ] [
+    let denominator productivity-shock-sigma * retained-profits-pi
+    let zeta random-exponential 1 / denominator
+
+    set labor-productivity-alpha labor-productivity-alpha + zeta
   ]
 end
 
@@ -2431,6 +2441,42 @@ true
 PENS
 "workers" 1.0 0 -14439633 true "" "set-plot-x-range ifelse-value keep-burning-phase? [ 0 ] [ max (list 0 (ticks - burning-periods))  ] (ticks + 5)\nplot income-tax-collected-workers / nominal-GDP"
 "firms" 1.0 0 -13345367 true "" "plot income-tax-collected-firms / nominal-GDP"
+
+SWITCH
+0
+805
+190
+838
+growth-model?
+growth-model?
+1
+1
+-1000
+
+TEXTBOX
+195
+815
+215
+833
+Off
+11
+5.0
+1
+
+SLIDER
+25
+840
+190
+873
+productivity-shock-sigma
+productivity-shock-sigma
+0
+0.2
+0.05
+0.01
+1
+NIL
+HORIZONTAL
 
 @#$#@#$#@
 Overview
