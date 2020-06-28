@@ -13,7 +13,8 @@ globals [
   ; government variables
   confiscated-money
   government-spending
-  income-tax-collected
+  income-tax-collected-workers
+  income-tax-collected-firms
 
   gini-index-reserve
   lorenz-points
@@ -414,8 +415,12 @@ to firms-produce
     set net-worth-A net-worth-A - total-payroll-W
   ]
 
+  let total-taxable-income 0
+
   ask workers with [employed?][
-    set income my-wage
+    set taxable-income (income-tax-rate / 100) * my-wage
+    set income my-wage - taxable-income
+    set total-taxable-income total-taxable-income + taxable-income
     set contract contract - 1
     if (contract = 0)[
       set employed? false
@@ -426,11 +431,14 @@ to firms-produce
     ]
   ]
 
+  set income-tax-collected-workers total-taxable-income
+
   ; firing employees with expired contract
   ask firms [
     set my-employees my-employees with [contract > 0]
   ]
 end
+
 
 ;;;;;;;;;; to goods-market  ;;;;;;;;;;
 to goods-market ;; an observer procedure
@@ -2379,6 +2387,21 @@ false
 "" ""
 PENS
 "default" 1.0 0 -16777216 true "" "set-plot-x-range ifelse-value keep-burning-phase? [ 0 ] [ max (list 0 (ticks - burning-periods))  ] (ticks + 5)\nplot government-spending / nominal-GDP"
+
+SLIDER
+240
+820
+430
+853
+income-tax-rate
+income-tax-rate
+0
+50
+30.0
+1
+1
+%
+HORIZONTAL
 
 @#$#@#$#@
 Overview
