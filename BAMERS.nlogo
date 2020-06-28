@@ -15,6 +15,7 @@ globals [
   government-spending
   income-tax-collected-workers
   income-tax-collected-firms
+  monetary-fines
 
   gini-index-reserve
   lorenz-points
@@ -217,8 +218,8 @@ to go
   credit-market
   firms-produce
   goods-market
-  extortion
   tax
+  extortion
   firms-pay
   firms-banks-survive
   replace-bankrupt
@@ -584,6 +585,7 @@ to extortion-search
 end
 
 to tax
+  let fines-for-evaders 0
   ask firms[
     ; J. M. Epstein (2002). Modeling civil violence: An agent-based computational approach.
     let around-firms min-n-of closest-observable-firms other firms [distance myself]
@@ -598,11 +600,14 @@ to tax
     set formal? political-grievance-G - net-risk-N <= rejection-threshold / 100
     let audit? random 100 < probability-of-being-caught-lambda
     if (audit? and not formal?)[
-     set tax-evader? true
+      set tax-evader? true
+      let amount-of-fine max (list 0 (net-worth-A * ( ( penalty-over-income-tax-rate + income-tax-rate ) / 100)))
+      set fines-for-evaders fines-for-evaders + amount-of-fine
+      set net-worth-A net-worth-A - amount-of-fine
     ]
   ]
 
-
+  set monetary-fines fines-for-evaders
 
 end
 
@@ -2192,7 +2197,7 @@ prop
 SWITCH
 240
 630
-442
+430
 663
 proportional-refund?
 proportional-refund?
@@ -2218,7 +2223,7 @@ HORIZONTAL
 SWITCH
 240
 665
-442
+430
 698
 quarterly-time-scale?
 quarterly-time-scale?
@@ -2227,9 +2232,9 @@ quarterly-time-scale?
 -1000
 
 TEXTBOX
-445
+435
 635
-510
+500
 661
 Otherwise, \nfirst to come
 10
@@ -2237,9 +2242,9 @@ Otherwise, \nfirst to come
 1
 
 TEXTBOX
-445
+435
 670
-515
+505
 696
 Otherwise, \nmonthly scale
 10
@@ -2453,15 +2458,15 @@ PENS
 "default" 1.0 0 -16777216 true "" "set-plot-x-range ifelse-value keep-burning-phase? [ 0 ] [ max (list 0 (ticks - burning-periods))  ] (ticks + 5)\nplot government-spending / nominal-GDP"
 
 SLIDER
-239
+240
 735
-459
+460
 768
 income-tax-rate
 income-tax-rate
 0
 50
-30.0
+0.0
 1
 1
 %
@@ -2472,7 +2477,7 @@ PLOT
 790
 1130
 910
-Income Tax Collected
+Tax Collected
 Time
 NIL
 0.0
@@ -2484,7 +2489,7 @@ true
 "" ""
 PENS
 "workers" 1.0 0 -14439633 true "" "set-plot-x-range ifelse-value keep-burning-phase? [ 0 ] [ max (list 0 (ticks - burning-periods))  ] (ticks + 5)\nplot income-tax-collected-workers / nominal-GDP"
-"firms" 1.0 0 -13345367 true "" "plot income-tax-collected-firms / nominal-GDP"
+"firms" 1.0 0 -13345367 true "" "plot ( income-tax-collected-firms + monetary-fines )/ nominal-GDP"
 
 SLIDER
 0
@@ -2538,6 +2543,21 @@ false
 "" ""
 PENS
 "default" 1.0 0 -16777216 true "" "set-plot-x-range ifelse-value keep-burning-phase? [ 0 ] [ max (list 0 (ticks - burning-periods))  ] (ticks + 5)\nplot 100 * ( count firms with [not formal?] / number-of-firms)"
+
+SLIDER
+240
+770
+460
+803
+penalty-over-income-tax-rate
+penalty-over-income-tax-rate
+1
+50
+10.0
+1
+1
+%
+HORIZONTAL
 
 @#$#@#$#@
 Overview
