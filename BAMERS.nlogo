@@ -176,8 +176,8 @@ end
 
 to start-firms [#firms]
   create-firms #firms [
-    set x-position random-pxcor * 0.9
-    set y-position random-pycor * 0.9
+    set x-position random-pxcor * 0.98
+    set y-position random-pycor * 0.98
     setxy x-position y-position
     set color blue
     set size 1.2
@@ -189,7 +189,7 @@ to start-workers [#workers]
   create-workers #workers [
     setxy random-pxcor random-pycor
     set color yellow
-    set size 1 / log number-of-firms 10
+    set size 10 / log number-of-firms 2
     set shape "person"
   ]
 end
@@ -198,7 +198,7 @@ to start-banks [#banks]
   create-banks #banks[
     setxy random-pxcor * 0.9 random-pycor * 0.9
     set color red
-    set size 1.5
+    set size 2
     set shape "house"
   ]
 end
@@ -777,8 +777,8 @@ to replace-bankrupt
       set new-firms-individual-price-P average-market-price
     ]
     create-firms (number-of-firms - count firms) [
-      set x-position random-pxcor * 0.9
-      set y-position random-pycor * 0.9
+      set x-position random-pxcor * 0.98
+      set y-position random-pycor * 0.98
       setxy x-position y-position
       set color blue
       set size 1.2
@@ -1154,13 +1154,13 @@ to-report avg-propensity-to-consume-extorter
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
-240
+230
 10
-594
-365
+503
+284
 -1
 -1
-6.53
+5.0
 1
 8
 1
@@ -1215,10 +1215,10 @@ NIL
 0
 
 SLIDER
-2
-48
-194
-81
+0
+50
+190
+83
 number-of-firms
 number-of-firms
 10
@@ -1230,14 +1230,44 @@ NIL
 HORIZONTAL
 
 SLIDER
-2
-84
-194
-117
+0
+85
+190
+118
 wages-shock-xi
 wages-shock-xi
 0.01
-0.5
+0.15
+0.06
+0.01
+1
+NIL
+HORIZONTAL
+
+SLIDER
+0
+120
+190
+153
+interest-shock-phi
+interest-shock-phi
+0
+0.15
+0.06
+0.01
+1
+NIL
+HORIZONTAL
+
+SLIDER
+0
+155
+190
+188
+price-shock-eta
+price-shock-eta
+0
+0.15
 0.05
 0.01
 1
@@ -1245,70 +1275,40 @@ NIL
 HORIZONTAL
 
 SLIDER
-2
-121
-194
-154
-interest-shock-phi
-interest-shock-phi
 0
-0.5
-0.1
-0.01
-1
-NIL
-HORIZONTAL
-
-SLIDER
-2
-157
-194
 190
-price-shock-eta
-price-shock-eta
+190
+223
+production-shock-rho
+production-shock-rho
 0
-0.5
-0.1
+0.15
+0.02
 0.01
 1
 NIL
 HORIZONTAL
 
 SLIDER
-2
-194
-194
-227
-production-shock-rho
-production-shock-rho
 0
-0.5
-0.1
-0.01
-1
-NIL
-HORIZONTAL
-
-SLIDER
-2
-231
-194
-264
+225
+190
+258
 v
 v
 0.01
 0.99
-0.23
+0.25
 0.01
 1
 NIL
 HORIZONTAL
 
 SLIDER
-2
-268
-194
-301
+0
+260
+190
+293
 labor-market-M
 labor-market-M
 1
@@ -1320,9 +1320,9 @@ trials
 HORIZONTAL
 
 PLOT
-865
+770
 30
-1131
+1036
 150
 Unemployment rate
 Time
@@ -1340,10 +1340,10 @@ PENS
 "pen-2" 1.0 0 -2674135 true "" "plot 0.10"
 
 SLIDER
-2
-303
-194
-336
+0
+295
+190
+328
 credit-market-H
 credit-market-H
 1
@@ -1355,10 +1355,10 @@ trials
 HORIZONTAL
 
 SLIDER
-2
-338
-194
-371
+0
+330
+190
+363
 goods-market-Z
 goods-market-Z
 1
@@ -1370,10 +1370,10 @@ trials
 HORIZONTAL
 
 SLIDER
-2
-374
-194
-407
+0
+365
+190
+398
 beta
 beta
 0.01
@@ -1385,10 +1385,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-2
-410
-194
-443
+0
+400
+190
+433
 dividends-delta
 dividends-delta
 0
@@ -1400,9 +1400,9 @@ NIL
 HORIZONTAL
 
 PLOT
-865
+770
 290
-1131
+1036
 410
 Net worth distribution
 log money
@@ -1418,9 +1418,9 @@ PENS
 "default" 1.0 1 -16777216 true "" "set-histogram-num-bars sqrt count firms\nset-plot-y-range 0 ceiling sqrt count firms\nset-plot-x-range floor ln-hopital min [net-worth-A] of fn-incumbent-firms ceiling ln-hopital max [net-worth-A] of fn-incumbent-firms\nhistogram map ln-hopital [net-worth-A] of fn-incumbent-firms"
 
 PLOT
-600
+505
 290
-866
+771
 410
 Net worth of firms
 Time
@@ -1438,9 +1438,9 @@ PENS
 "max" 1.0 2 -13840069 true "set-plot-pen-mode 2" "plot ln-hopital max [net-worth-A] of firms"
 
 PLOT
-865
+770
 150
-1131
+1036
 270
 Propensity to consume
 Time
@@ -1458,9 +1458,9 @@ PENS
 "max" 1.0 0 -13345367 true "" "plot max [propensity-to-consume-c] of workers"
 
 PLOT
-1395
+1300
 30
-1661
+1566
 150
 Time scale inflation
 Time
@@ -1477,9 +1477,9 @@ PENS
 "pen-1" 1.0 2 -5987164 true "" "plot 0"
 
 PLOT
-1130
+1035
 30
-1396
+1301
 150
 Annualized inflation
 Year
@@ -1497,9 +1497,9 @@ PENS
 
 TEXTBOX
 5
-445
+470
 190
-475
+500
 Random scaling parameter
 12
 0.0
@@ -1507,9 +1507,9 @@ Random scaling parameter
 
 SLIDER
 0
-460
-192
-493
+485
+190
+518
 size-replacing-firms
 size-replacing-firms
 0.05
@@ -1521,13 +1521,13 @@ NIL
 HORIZONTAL
 
 PLOT
-600
+505
 30
-866
+771
 150
 Real GDP
 Time
-Ln
+NIL
 0.0
 10.0
 0.0
@@ -1536,12 +1536,12 @@ true
 false
 "" ""
 PENS
-"Nom." 1.0 0 -12030287 true "" "set-plot-x-range ifelse-value keep-burning-phase? [ 0 ] [ max (list 0 (ticks - burning-periods))  ] (ticks + 5)\nplot ln real-GDP"
+"Nom." 1.0 0 -12030287 true "" "set-plot-x-range ifelse-value keep-burning-phase? [ 0 ] [ max (list 0 (ticks - burning-periods))  ] (ticks + 5)\nplot real-GDP"
 
 PLOT
-600
+505
 150
-866
+771
 270
 Consumption to GDP ratio
 Time
@@ -1557,9 +1557,9 @@ PENS
 "default" 1.0 0 -16777216 true "" "set-plot-x-range ifelse-value keep-burning-phase? [ 0 ] [ max (list 0 (ticks - burning-periods))  ] (ticks + 5)\nplot households-consumption-to-gdp-ratio"
 
 PLOT
-865
+770
 410
-1131
+1036
 530
 Price of firms
 Time
@@ -1577,119 +1577,119 @@ PENS
 "max" 1.0 0 -13345367 true "" "plot ln max [individual-price-P] of firms"
 
 TEXTBOX
-200
-60
-230
-78
+195
+65
+220
+83
 100
 11
 5.0
 1
 
 TEXTBOX
-199
-16
-234
-51
+190
+15
+225
+50
 Init \nvalues
 12
 5.0
 1
 
 TEXTBOX
-200
-98
-274
-116
+195
+100
+220
+118
 0.05
 11
 5.0
 1
 
 TEXTBOX
-201
-137
-252
-155
+195
+135
+220
+153
 0.10
 11
 5.0
 1
 
 TEXTBOX
-201
-172
-231
-190
+195
+170
+220
+188
 0.10
 11
 5.0
 1
 
 TEXTBOX
-200
-210
-235
-228
-0.10
-11
-5.0
-1
-
-TEXTBOX
+195
 205
-280
-235
-298
+220
+223
+0.10
+11
+5.0
+1
+
+TEXTBOX
+195
+275
+220
+293
 4
 11
 5.0
 1
 
 TEXTBOX
-206
-319
-236
-337
+195
+310
+220
+328
 2
 11
 5.0
 1
 
 TEXTBOX
-205
-352
-230
-370
+195
+345
+220
+363
 2
 12
 5.0
 1
 
 TEXTBOX
-204
-390
-234
-408
+195
+380
+220
+398
 0.87
 11
 5.0
 1
 
 TEXTBOX
-200
-425
-240
-443
+195
+415
+220
+433
 0.15
 11
 5.0
 1
 
 PLOT
-1395
+1300
 530
-1661
+1566
 650
 Wealth distribution of regular worker
 log wealth
@@ -1705,9 +1705,9 @@ PENS
 "default" 1.0 1 -16777216 true "" "set-histogram-num-bars sqrt count workers\nset-plot-y-range 0 ceiling sqrt count workers\nset-plot-x-range floor ln-hopital min [wealth] of workers ceiling ln-hopital max [wealth] of workers\nhistogram map ln-hopital [wealth] of workers with [wealth > 0 and not extorter? and not in-jail?]"
 
 PLOT
-1130
+1035
 410
-1395
+1300
 530
 Size of firms
 log Production
@@ -1723,9 +1723,9 @@ PENS
 "default" 1.0 1 -16777216 true "" "set-histogram-num-bars sqrt count firms\nset-plot-y-range 0 ceiling sqrt count firms\nset-plot-x-range floor ln-hopital min [production-Y] of fn-incumbent-firms ceiling ln-hopital max [production-Y] of fn-incumbent-firms\nplot-size-of-firms"
 
 PLOT
-1130
+1035
 290
-1395
+1300
 410
 Production of firms
 Time
@@ -1743,9 +1743,9 @@ PENS
 "min" 1.0 0 -2674135 true "" "plot min [production-Y] of fn-incumbent-firms"
 
 PLOT
-1395
+1300
 290
-1660
+1565
 410
 Desired production
 Time
@@ -1763,9 +1763,9 @@ PENS
 "min" 1.0 0 -2674135 true "" "plot min [desired-production-Yd] of firms"
 
 PLOT
-600
+505
 530
-865
+770
 650
 Contractual interest rate
 Time
@@ -1781,9 +1781,9 @@ PENS
 "mean" 1.0 0 -16777216 true "" "set-plot-x-range ifelse-value keep-burning-phase? [ 0 ] [ max (list 0 (ticks - burning-periods))  ] (ticks + 5)\nplot 100 * mean [my-interest-rate] of firms"
 
 PLOT
-1130
+1035
 530
-1395
+1300
 650
 Avg Wealth of workers
 Time
@@ -1800,9 +1800,9 @@ PENS
 "extorter" 1.0 0 -5298144 true "" "plot fn-wealth-of-extorters"
 
 PLOT
-600
+505
 410
-865
+770
 530
 Inventory-S
 Time
@@ -1820,9 +1820,9 @@ PENS
 "min" 1.0 0 -13345367 true "" "plot ln-hopital min [inventory-S] of firms"
 
 PLOT
-865
+770
 530
-1130
+1035
 650
 Banks patrimonial base
 Time
@@ -1840,20 +1840,20 @@ PENS
 "min" 1.0 0 -13345367 true "" "plot ln-hopital min [patrimonial-base-E] of banks"
 
 TEXTBOX
-240
-365
-580
-391
+230
+290
+490
+316
 General extortion parameters
 12
 0.0
 1
 
 SLIDER
-240
-385
-460
-418
+230
+310
+450
+343
 propensity-to-be-extorter-epsilon
 propensity-to-be-extorter-epsilon
 0
@@ -1865,10 +1865,10 @@ propensity-to-be-extorter-epsilon
 HORIZONTAL
 
 SLIDER
-240
-455
-460
-488
+230
+380
+450
+413
 firms-to-extort-X
 firms-to-extort-X
 1
@@ -1880,9 +1880,9 @@ trials
 HORIZONTAL
 
 PLOT
-600
+505
 670
-865
+770
 790
 % of Workers being extortionists
 Time
@@ -1899,10 +1899,10 @@ PENS
 "In-jail" 1.0 0 -12412731 true "" "plot (N-extorters-in-jail / count workers) * 100"
 
 SLIDER
-20
-630
-190
-663
+250
+700
+420
+733
 proportion-of-pizzo
 proportion-of-pizzo
 0
@@ -1914,9 +1914,9 @@ proportion-of-pizzo
 HORIZONTAL
 
 PLOT
-1130
+1035
 670
-1395
+1300
 790
 Pizzo & punish to GDP ratio
 Time
@@ -1933,10 +1933,10 @@ PENS
 "punish" 1.0 0 -5298144 true "" "plot punish-to-gdp-ratio"
 
 SLIDER
-240
-420
-460
-453
+230
+345
+450
+378
 probability-of-being-caught-lambda
 probability-of-being-caught-lambda
 0
@@ -1948,9 +1948,9 @@ probability-of-being-caught-lambda
 HORIZONTAL
 
 PLOT
-1395
+1300
 410
-1660
+1565
 530
 Wage offered Wb
 Time
@@ -1968,69 +1968,69 @@ PENS
 "max" 1.0 0 -13345367 true "" "plot ln max [wage-offered-Wb] of firms"
 
 TEXTBOX
-465
-400
-500
-418
+455
+325
+490
+343
 20%
 11
 5.0
 1
 
 TEXTBOX
-197
-473
-242
-491
+195
+500
+220
+518
 0.20
 11
 5.0
 1
 
 TEXTBOX
-465
-470
-500
-488
+455
+395
+490
+413
 1 trial
 11
 5.0
 1
 
 TEXTBOX
-195
-640
-225
-658
+425
+710
+450
+728
 10%
 11
 5.0
 1
 
 TEXTBOX
-465
-505
-500
-523
+455
+430
+490
+448
 15%
 11
 5.0
 1
 
 TEXTBOX
-465
-435
-500
-453
+455
+360
+490
+378
 30%
 11
 5.0
 1
 
 PLOT
-1130
+1035
 150
-1395
+1300
 270
 Lorenz curve of workers
 Pop %
@@ -2047,9 +2047,9 @@ PENS
 "Equal" 100.0 0 -13840069 true "plot 0\nplot 100" ""
 
 PLOT
-1395
+1300
 150
-1660
+1565
 270
 Gini index
 Time
@@ -2064,21 +2064,11 @@ false
 PENS
 "default" 1.0 0 -16777216 true "" "set-plot-x-range ifelse-value keep-burning-phase? [ 0 ] [ max (list 0 (ticks - burning-periods))  ] (ticks + 5)\nplot (gini-index-reserve / round (number-of-firms * 5)) / 0.5"
 
-TEXTBOX
-8
-554
-203
-572
-Pizzo payment parameters
-12
-0.0
-1
-
 SLIDER
-240
-560
-460
-593
+230
+485
+450
+518
 percent-transfer-fondo
 percent-transfer-fondo
 0
@@ -2090,70 +2080,60 @@ percent-transfer-fondo
 HORIZONTAL
 
 TEXTBOX
-465
-575
+455
 500
-593
+490
+518
 50%
 11
 5.0
 1
 
-TEXTBOX
-8
-494
-198
-512
-Searching strategy
-12
-0.0
-1
-
 CHOOSER
-0
-510
-190
-555
+230
+590
+420
+635
 type-of-search
 type-of-search
 "random-search" "around-search"
 0
 
 CHOOSER
-0
-570
-190
-615
+230
+640
+420
+685
 type-of-pizzo
 type-of-pizzo
 "proportion" "constant"
 0
 
 TEXTBOX
-23
-614
-173
-632
+253
+684
+403
+702
 Used if \"proportion\"
 12
 3.0
 1
 
 TEXTBOX
-23
-664
-173
-682
+253
+734
+403
+752
 Used if \"constant\"
 12
 3.0
 1
 
 SLIDER
-20
-680
-190
-713
+250
+750
+420
+783
 constant-pizzo
 constant-pizzo
 1
@@ -2165,40 +2145,40 @@ $
 HORIZONTAL
 
 TEXTBOX
-202
-693
-227
-711
+427
+763
+452
+781
 1
 11
 5.0
 1
 
 TEXTBOX
-197
-533
-237
-551
+425
+615
+450
+633
 rand
 11
 5.0
 1
 
 TEXTBOX
-197
-593
-227
-611
+427
+663
+452
+681
 prop
 11
 5.0
 1
 
 SWITCH
-240
-630
-430
-663
+230
+555
+420
+588
 proportional-refund?
 proportional-refund?
 0
@@ -2206,10 +2186,10 @@ proportional-refund?
 -1000
 
 SLIDER
-240
-490
-460
-523
+230
+415
+450
+448
 rejection-threshold
 rejection-threshold
 0
@@ -2221,10 +2201,10 @@ rejection-threshold
 HORIZONTAL
 
 SWITCH
-240
-665
-430
-698
+0
+520
+190
+553
 quarterly-time-scale?
 quarterly-time-scale?
 1
@@ -2232,30 +2212,30 @@ quarterly-time-scale?
 -1000
 
 TEXTBOX
-435
-635
-500
-661
+425
+560
+490
+586
 Otherwise, \nfirst to come
 10
 5.0
 1
 
 TEXTBOX
-435
-670
-505
-696
-Otherwise, \nmonthly scale
+195
+525
+230
+551
+If not, \nmonthly
 10
 5.0
 1
 
 SLIDER
-240
-595
-460
-628
+230
+520
+450
+553
 proportion-of-punish
 proportion-of-punish
 25
@@ -2267,19 +2247,19 @@ proportion-of-punish
 HORIZONTAL
 
 TEXTBOX
-465
-610
-500
-628
+455
+535
+490
+553
 25%
 11
 5.0
 1
 
 PLOT
-865
+770
 670
-1130
+1035
 790
 % of Firms being...
 Time
@@ -2296,9 +2276,9 @@ PENS
 "Punished" 1.0 0 -5298144 true "" "plot (N-punished-firms / count firms) * 100"
 
 TEXTBOX
-605
+510
 10
-935
+840
 31
 Aggregate economic variables
 16
@@ -2306,9 +2286,9 @@ Aggregate economic variables
 1
 
 TEXTBOX
-605
+510
 270
-755
+660
 295
 Agent variables
 16
@@ -2316,9 +2296,9 @@ Agent variables
 1
 
 TEXTBOX
-605
+510
 650
-830
+735
 668
 Extortion related variables
 16
@@ -2326,10 +2306,10 @@ Extortion related variables
 1
 
 SLIDER
-240
-525
-460
-558
+230
+450
+450
+483
 closest-observable-firms
 closest-observable-firms
 1
@@ -2341,19 +2321,19 @@ firms
 HORIZONTAL
 
 TEXTBOX
+455
 465
-535
-500
-553
+490
+483
 3 firms
 11
 5.0
 1
 
 PLOT
-1395
+1300
 670
-1660
+1565
 790
 Wealth distribution of extorters
 log wealth
@@ -2370,9 +2350,9 @@ PENS
 
 TEXTBOX
 10
-715
+555
 160
-733
+573
 Graphics debugging
 12
 0.0
@@ -2380,20 +2360,20 @@ Graphics debugging
 
 SWITCH
 0
-730
+570
 190
-763
+603
 keep-burning-phase?
 keep-burning-phase?
-0
+1
 1
 -1000
 
 SLIDER
 25
-765
+605
 190
-798
+638
 burning-periods
 burning-periods
 100
@@ -2406,44 +2386,44 @@ HORIZONTAL
 
 TEXTBOX
 195
-780
+620
 220
-798
+638
 500
 11
 5.0
 1
 
 SLIDER
-240
-700
-460
-733
+230
+790
+450
+823
 basic-basket-to-minimum-wage-ratio
 basic-basket-to-minimum-wage-ratio
 0
 100
-0.0
+48.0
 1
 1
 %
 HORIZONTAL
 
 TEXTBOX
-460
-700
-580
-746
+450
+790
+570
+836
  8% Englang; 13% Spain;\n14% USA; 27% Argentina;\n29% Chile; 32% Brazil;\n48% Mexico
 8
 5.0
 1
 
 PLOT
-600
-790
-865
-910
+1565
+30
+1830
+150
 Government spending to GDP ratio
 Time
 NIL
@@ -2458,25 +2438,25 @@ PENS
 "default" 1.0 0 -16777216 true "" "set-plot-x-range ifelse-value keep-burning-phase? [ 0 ] [ max (list 0 (ticks - burning-periods))  ] (ticks + 5)\nplot government-spending / nominal-GDP"
 
 SLIDER
-240
-735
-460
-768
+0
+655
+190
+688
 income-tax-rate
 income-tax-rate
 0
 50
-0.0
+30.0
 1
 1
 %
 HORIZONTAL
 
 PLOT
-865
-790
-1130
-910
+1565
+150
+1830
+270
 Tax Collected
 Time
 NIL
@@ -2493,9 +2473,9 @@ PENS
 
 SLIDER
 0
-800
+435
 190
-833
+468
 productivity-shock-sigma
 productivity-shock-sigma
 0
@@ -2507,10 +2487,10 @@ NIL
 HORIZONTAL
 
 TEXTBOX
-200
-245
-225
-263
+195
+240
+220
+258
 0.23
 11
 5.0
@@ -2518,20 +2498,20 @@ TEXTBOX
 
 TEXTBOX
 195
-815
+450
 220
-833
+468
 0.10
 11
 5.0
 1
 
 PLOT
-1130
-790
-1395
-910
-% of Informal firms
+1565
+290
+1830
+410
+% of Informal & evader firms
 Time
 %
 0.0
@@ -2539,16 +2519,17 @@ Time
 0.0
 1.0
 true
-false
+true
 "" ""
 PENS
-"default" 1.0 0 -16777216 true "" "set-plot-x-range ifelse-value keep-burning-phase? [ 0 ] [ max (list 0 (ticks - burning-periods))  ] (ticks + 5)\nplot 100 * ( count firms with [not formal?] / number-of-firms)"
+"informal" 1.0 0 -1184463 true "" "set-plot-x-range ifelse-value keep-burning-phase? [ 0 ] [ max (list 0 (ticks - burning-periods))  ] (ticks + 5)\nplot 100 * ( count firms with [not formal?] / number-of-firms)"
+"evaders" 1.0 0 -955883 true "" "plot 100 * ( count firms with [tax-evader?] / number-of-firms)"
 
 SLIDER
-240
-770
-460
-803
+0
+690
+190
+723
 penalty-over-income-tax-rate
 penalty-over-income-tax-rate
 1
@@ -3474,52 +3455,46 @@ NetLogo 6.1.1
       <value value="false"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="test-economy" repetitions="1" runMetricsEveryStep="true">
+  <experiment name="test-economy" repetitions="3" sequentialRunOrder="false" runMetricsEveryStep="true">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="200"/>
-    <metric>fn-unemployment-rate</metric>
-    <metric>gini-index</metric>
-    <metric>skewness-of-wealth</metric>
-    <metric>avg-net-worth</metric>
-    <metric>avg-propensity-to-consume</metric>
     <metric>real-GDP</metric>
-    <metric>average-market-price</metric>
+    <metric>fn-unemployment-rate</metric>
+    <metric>quarterly-inflation</metric>
+    <metric>yearly-inflation</metric>
+    <metric>gini-index</metric>
+    <metric>skewness-of-wealth-regular-worker</metric>
+    <metric>fn-wealth-of-regular-worker</metric>
+    <metric>wealth-of-regular-worker-to-gdp-ratio</metric>
+    <metric>households-consumption-to-gdp-ratio</metric>
+    <metric>avg-propensity-to-consume</metric>
+    <metric>avg-net-worth</metric>
+    <metric>skewness-of-networth</metric>
+    <metric>avg-firm-production</metric>
+    <metric>ln average-market-price</metric>
     <metric>avg-interest-rate</metric>
-    <enumeratedValueSet variable="credit-market-H">
-      <value value="2"/>
-      <value value="3"/>
-      <value value="4"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="labor-market-M">
-      <value value="2"/>
-      <value value="3"/>
-      <value value="4"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="goods-market-Z">
-      <value value="2"/>
-      <value value="3"/>
-      <value value="4"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="wages-shock-xi">
-      <value value="0.05"/>
-      <value value="0.1"/>
-      <value value="0.15"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="price-shock-eta">
-      <value value="0.05"/>
-      <value value="0.1"/>
-      <value value="0.15"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="interest-shock-phi">
-      <value value="0.05"/>
-      <value value="0.1"/>
-      <value value="0.15"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="production-shock-rho">
-      <value value="0.05"/>
-      <value value="0.1"/>
-      <value value="0.15"/>
+    <metric>avg-wage-offered</metric>
+    <metric>inventory-to-gdp-ratio</metric>
+    <metric>patrimonial-bank-to-gdp-ratio</metric>
+    <metric>fn-wealth-of-extorters</metric>
+    <metric>avg-wealth-of-extorters-to-gdp-ratio</metric>
+    <metric>skewness-of-wealth-extorter</metric>
+    <metric>N-extorted-firms</metric>
+    <metric>N-punished-firms</metric>
+    <metric>N-extorters</metric>
+    <metric>N-extorters-in-jail</metric>
+    <metric>pizzo-to-gdp-ratio</metric>
+    <metric>punish-to-gdp-ratio</metric>
+    <metric>government-spending-to-gdp-ratio</metric>
+    <steppedValueSet variable="wages-shock-xi" first="0.05" step="0.01" last="0.06"/>
+    <steppedValueSet variable="price-shock-eta" first="0.06" step="0.01" last="0.07"/>
+    <steppedValueSet variable="interest-shock-phi" first="0.04" step="0.01" last="0.05"/>
+    <steppedValueSet variable="production-shock-rho" first="0.01" step="0.01" last="0.03"/>
+    <enumeratedValueSet variable="v">
+      <value value="0.25"/>
+      <value value="0.45"/>
+      <value value="0.65"/>
+      <value value="0.85"/>
     </enumeratedValueSet>
   </experiment>
   <experiment name="test-troitzsch" repetitions="20" runMetricsEveryStep="true">
