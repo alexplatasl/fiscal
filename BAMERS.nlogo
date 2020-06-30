@@ -307,11 +307,11 @@ end
 to hiring-step [trials]
   while [trials > 0]
   [
-    ask workers with [not employed? and any? my-potential-firms and not in-jail?][
+    ask workers with [not employed? and any? my-potential-firms and not in-jail? and not is-agent? my-firm][
       move-to max-one-of my-potential-firms [wage-offered-Wb]
     ]
     ask firms with [number-of-vacancies-offered-V > 0 ][
-      let potential-workers workers-here with [not employed?]
+      let potential-workers workers-here with [not employed? and not in-jail?]
       let quantity count potential-workers
       let workers-hired n-of (min list quantity number-of-vacancies-offered-V) potential-workers
       let wage-employees wage-offered-Wb
